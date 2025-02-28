@@ -1,10 +1,16 @@
+// Home.jsx
 import React, { useEffect, useState } from "react";
 import ArticleCard from "../components/ArticleCard.jsx";
+import Navbar from "../components/Navbar"; // Adjust the import based on your file structure
 
 const Home = () => {
   const [articles, setArticles] = useState([]);
   const [filteredArticles, setFilteredArticles] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  // Updated categories
+  const categories = ["All", "World", "Business", "Technology", "Future", "Politics"]; // Define your categories here
 
   useEffect(() => {
     fetch("http://localhost:5000/api/news")
@@ -18,24 +24,32 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (searchQuery.trim() === "") {
-      setFilteredArticles(articles);
-    } else {
+    let filtered = articles;
+
+    // Filter by category
+    if (selectedCategory !== "All") {
+      filtered = filtered.filter(article => article.categories.includes(selectedCategory));
+    }
+
+    // Filter by search query
+    if (searchQuery.trim() !== "") {
       const query = searchQuery.toLowerCase();
-      const filtered = articles.filter((article) => {
+      filtered = filtered.filter((article) => {
         return (
           (article.headline && article.headline.toLowerCase().includes(query)) ||
           (article.description && article.description.toLowerCase().includes(query)) ||
           (article.summary && article.summary.toLowerCase().includes(query))
         );
       });
-      setFilteredArticles(filtered);
     }
-  }, [searchQuery, articles]);
+
+    setFilteredArticles(filtered);
+  }, [searchQuery, articles, selectedCategory]);
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">Top BBC News</h1>
+      <Navbar categories={categories} onSelectCategory={setSelectedCategory} selectedCategory={selectedCategory} />
       <div className="mb-4">
         <input
           type="text"

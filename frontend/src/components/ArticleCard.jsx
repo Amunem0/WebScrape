@@ -29,6 +29,11 @@ const ArticleCard = ({ article }) => {
           ) : (
             <p className="text-gray-600 text-sm">Author: Not available</p>
           )}
+          {article.categories ? (  // New section for categories
+            <p className="text-gray-600 text-sm">Categories: {article.categories}</p>
+          ) : (
+            <p className="text-gray-600 text-sm">Categories: Not available</p>
+          )}
         </div>
       </div>
       <div className="px-6 pt-4 pb-2">

@@ -1,4 +1,3 @@
-// scraper.js
 import { Builder, By, until } from 'selenium-webdriver';
 import chrome from 'selenium-webdriver/chrome.js';
 
@@ -73,11 +72,22 @@ export async function scrapeBBCNews() {
           lastUpdated = '';
         }
 
-        // Extract author (or tag) information
+        // Extract categories (previously author)
+        let categories = '';
+        try {
+          let categoriesEl = await parentAnchor.findElement(
+            By.css('span[data-testid="card-metadata-tag"]')
+          );
+          categories = await categoriesEl.getText();
+        } catch (err) {
+          categories = '';
+        }
+
+        // Extract author from the new class
         let author = '';
         try {
           let authorEl = await parentAnchor.findElement(
-            By.css('span[data-testid="card-metadata-tag"]')
+            By.css('.sc-b42e7a8f-7.khDNZq')
           );
           author = await authorEl.getText();
         } catch (err) {
@@ -91,7 +101,8 @@ export async function scrapeBBCNews() {
           description,
           imageUrl,
           lastUpdated,
-          author,
+          categories, // Updated to store categories
+          author,     // New author extraction
           summary: description,
         });
 
@@ -102,6 +113,7 @@ export async function scrapeBBCNews() {
         console.log(`Description: ${description}`);
         console.log(`Image URL: ${imageUrl}`);
         console.log(`Last Updated: ${lastUpdated}`);
+        console.log(`Categories: ${categories}`); // Updated log
         console.log(`Author: ${author}`);
         console.log('-------------------------------------------');
       } catch (innerErr) {
