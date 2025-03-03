@@ -1,47 +1,51 @@
 // ArticleCard.js
 import React from "react";
 
-const ArticleCard = ({ article }) => {
+const ArticleCard = ({ article, isDarkMode }) => {
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg m-4">
+    <div
+      className={`rounded-lg shadow-md overflow-hidden transform transition hover:scale-105 duration-300 ${
+        isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+      }`}
+    >
       <img
-        className="w-full"
+        className="w-full h-48 object-cover"
         src={article.imageUrl || "https://via.placeholder.com/300x150"}
         alt={article.headline || "Article Image"}
       />
-      <div className="px-6 py-4">
+      <div className="p-4">
         <h2 className="font-bold text-xl mb-2">{article.headline}</h2>
-        <p className="text-gray-700 text-base">
+        <p className="text-base">
           {article.summary || "No summary available."}
         </p>
-        <div className="mt-4">
+        <div className="mt-4 space-y-1">
           {article.lastUpdated ? (
-            <p className="text-gray-600 text-sm">
-              Last Updated: {article.lastUpdated}
-            </p>
+            <p className="text-sm">Last Updated: {article.lastUpdated}</p>
           ) : (
-            <p className="text-gray-600 text-sm">
-              Last Updated: Not available
-            </p>
+            <p className="text-sm">Last Updated: Not available</p>
           )}
           {article.author ? (
-            <p className="text-gray-600 text-sm">Author: {article.author}</p>
+            <p className="text-sm">Author: {article.author}</p>
           ) : (
-            <p className="text-gray-600 text-sm">Author: Not available</p>
+            <p className="text-sm">Author: Not available</p>
           )}
-          {article.categories ? (  // New section for categories
-            <p className="text-gray-600 text-sm">Categories: {article.categories}</p>
+          {article.categories ? (
+            <p className="text-sm">Categories: {article.categories}</p>
           ) : (
-            <p className="text-gray-600 text-sm">Categories: Not available</p>
+            <p className="text-sm">Categories: Not available</p>
           )}
         </div>
       </div>
-      <div className="px-6 pt-4 pb-2">
+      <div className="p-4 border-t">
         <a
           href={article.link}
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className={`block text-center font-bold py-2 px-4 rounded ${
+            isDarkMode
+              ? "bg-blue-600 hover:bg-blue-700 text-white"
+              : "bg-blue-500 hover:bg-blue-600 text-white"
+          }`}
         >
           Read More
         </a>
