@@ -1,10 +1,9 @@
-// ArticleCard.js
 import React from "react";
 
 const ArticleCard = ({ article, isDarkMode }) => {
   return (
     <div
-      className={`rounded-lg shadow-md overflow-hidden transform transition hover:scale-105 duration-300 ${
+      className={`rounded-lg shadow-md overflow-hidden transform transition hover:scale-105 duration-300 flex flex-col ${
         isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
       }`}
     >
@@ -13,27 +12,19 @@ const ArticleCard = ({ article, isDarkMode }) => {
         src={article.imageUrl || "https://via.placeholder.com/300x150"}
         alt={article.headline || "Article Image"}
       />
-      <div className="p-4">
+      <div className="p-4 flex-grow">
         <h2 className="font-bold text-xl mb-2">{article.headline}</h2>
         <p className="text-base">
           {article.summary || "No summary available."}
         </p>
         <div className="mt-4 space-y-1">
-          {article.lastUpdated ? (
-            <p className="text-sm">Last Updated: {article.lastUpdated}</p>
-          ) : (
-            <p className="text-sm">Last Updated: Not available</p>
-          )}
-          {article.author ? (
-            <p className="text-sm">Author: {article.author}</p>
-          ) : (
-            <p className="text-sm">Author: Not available</p>
-          )}
-          {article.categories ? (
-            <p className="text-sm">Categories: {article.categories}</p>
-          ) : (
-            <p className="text-sm">Categories: Not available</p>
-          )}
+          <p className="text-sm">
+            Last Updated: {article.lastUpdated || "Not available"}
+          </p>
+          <p className="text-sm">Author: {article.author || "Not available"}</p>
+          <p className="text-sm">
+            Categories: {article.categories || "Not available"}
+          </p>
         </div>
       </div>
       <div className="p-4 border-t">
